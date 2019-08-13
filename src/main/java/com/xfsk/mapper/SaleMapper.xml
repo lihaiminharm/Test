@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfsk.mapper.SaleMapper" >
+  <resultMap id="BaseResultMap" type="com.xfsk.domain.Sale" >
+    <id column="Sale_guid" property="saleGuid" jdbcType="VARCHAR" />
+    <result column="Sale_address" property="saleAddress" jdbcType="VARCHAR" />
+    <result column="Sale_name" property="saleName" jdbcType="VARCHAR" />
+    <result column="Sale_datetime" property="saleDatetime" jdbcType="TIMESTAMP" />
+    <result column="Sale_tel" property="saleTel" jdbcType="INTEGER" />
+    <result column="Sale_isexist" property="saleIsexist" jdbcType="INTEGER" />
+    <result column="Sale_isuse" property="saleIsuse" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Sale_guid, Sale_address, Sale_name, Sale_datetime, Sale_tel, Sale_isexist, Sale_isuse
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xfsk.domain.SaleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Sale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Sale
+    where Sale_guid = #{saleGuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Sale
+    where Sale_guid = #{saleGuid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xfsk.domain.SaleExample" >
+    delete from Sale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xfsk.domain.Sale" >
+    insert into Sale (Sale_guid, Sale_address, Sale_name, 
+      Sale_datetime, Sale_tel, Sale_isexist, 
+      Sale_isuse)
+    values (#{saleGuid,jdbcType=VARCHAR}, #{saleAddress,jdbcType=VARCHAR}, #{saleName,jdbcType=VARCHAR}, 
+      #{saleDatetime,jdbcType=TIMESTAMP}, #{saleTel,jdbcType=INTEGER}, #{saleIsexist,jdbcType=INTEGER}, 
+      #{saleIsuse,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfsk.domain.Sale" >
+    insert into Sale
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="saleGuid != null" >
+        Sale_guid,
+      </if>
+      <if test="saleAddress != null" >
+        Sale_address,
+      </if>
+      <if test="saleName != null" >
+        Sale_name,
+      </if>
+      <if test="saleDatetime != null" >
+        Sale_datetime,
+      </if>
+      <if test="saleTel != null" >
+        Sale_tel,
+      </if>
+      <if test="saleIsexist != null" >
+        Sale_isexist,
+      </if>
+      <if test="saleIsuse != null" >
+        Sale_isuse,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="saleGuid != null" >
+        #{saleGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="saleAddress != null" >
+        #{saleAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="saleName != null" >
+        #{saleName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleDatetime != null" >
+        #{saleDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTel != null" >
+        #{saleTel,jdbcType=INTEGER},
+      </if>
+      <if test="saleIsexist != null" >
+        #{saleIsexist,jdbcType=INTEGER},
+      </if>
+      <if test="saleIsuse != null" >
+        #{saleIsuse,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xfsk.domain.SaleExample" resultType="java.lang.Integer" >
+    select count(*) from Sale
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Sale
+    <set >
+      <if test="record.saleGuid != null" >
+        Sale_guid = #{record.saleGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saleAddress != null" >
+        Sale_address = #{record.saleAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saleName != null" >
+        Sale_name = #{record.saleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.saleDatetime != null" >
+        Sale_datetime = #{record.saleDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.saleTel != null" >
+        Sale_tel = #{record.saleTel,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleIsexist != null" >
+        Sale_isexist = #{record.saleIsexist,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleIsuse != null" >
+        Sale_isuse = #{record.saleIsuse,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Sale
+    set Sale_guid = #{record.saleGuid,jdbcType=VARCHAR},
+      Sale_address = #{record.saleAddress,jdbcType=VARCHAR},
+      Sale_name = #{record.saleName,jdbcType=VARCHAR},
+      Sale_datetime = #{record.saleDatetime,jdbcType=TIMESTAMP},
+      Sale_tel = #{record.saleTel,jdbcType=INTEGER},
+      Sale_isexist = #{record.saleIsexist,jdbcType=INTEGER},
+      Sale_isuse = #{record.saleIsuse,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfsk.domain.Sale" >
+    update Sale
+    <set >
+      <if test="saleAddress != null" >
+        Sale_address = #{saleAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="saleName != null" >
+        Sale_name = #{saleName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleDatetime != null" >
+        Sale_datetime = #{saleDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTel != null" >
+        Sale_tel = #{saleTel,jdbcType=INTEGER},
+      </if>
+      <if test="saleIsexist != null" >
+        Sale_isexist = #{saleIsexist,jdbcType=INTEGER},
+      </if>
+      <if test="saleIsuse != null" >
+        Sale_isuse = #{saleIsuse,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Sale_guid = #{saleGuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfsk.domain.Sale" >
+    update Sale
+    set Sale_address = #{saleAddress,jdbcType=VARCHAR},
+      Sale_name = #{saleName,jdbcType=VARCHAR},
+      Sale_datetime = #{saleDatetime,jdbcType=TIMESTAMP},
+      Sale_tel = #{saleTel,jdbcType=INTEGER},
+      Sale_isexist = #{saleIsexist,jdbcType=INTEGER},
+      Sale_isuse = #{saleIsuse,jdbcType=INTEGER}
+    where Sale_guid = #{saleGuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

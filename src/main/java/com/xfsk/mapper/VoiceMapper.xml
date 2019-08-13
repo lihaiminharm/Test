@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfsk.mapper.VoiceMapper" >
+  <resultMap id="BaseResultMap" type="com.xfsk.domain.Voice" >
+    <id column="Voice_id" property="voiceId" jdbcType="INTEGER" />
+    <result column="Voice_voice" property="voiceVoice" jdbcType="VARCHAR" />
+    <result column="Type_id" property="typeId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Voice_id, Voice_voice, Type_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xfsk.domain.VoiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Voice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Voice
+    where Voice_id = #{voiceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Voice
+    where Voice_id = #{voiceId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xfsk.domain.VoiceExample" >
+    delete from Voice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xfsk.domain.Voice" >
+    insert into Voice (Voice_id, Voice_voice, Type_id
+      )
+    values (#{voiceId,jdbcType=INTEGER}, #{voiceVoice,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfsk.domain.Voice" >
+    insert into Voice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="voiceId != null" >
+        Voice_id,
+      </if>
+      <if test="voiceVoice != null" >
+        Voice_voice,
+      </if>
+      <if test="typeId != null" >
+        Type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="voiceId != null" >
+        #{voiceId,jdbcType=INTEGER},
+      </if>
+      <if test="voiceVoice != null" >
+        #{voiceVoice,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xfsk.domain.VoiceExample" resultType="java.lang.Integer" >
+    select count(*) from Voice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Voice
+    <set >
+      <if test="record.voiceId != null" >
+        Voice_id = #{record.voiceId,jdbcType=INTEGER},
+      </if>
+      <if test="record.voiceVoice != null" >
+        Voice_voice = #{record.voiceVoice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null" >
+        Type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Voice
+    set Voice_id = #{record.voiceId,jdbcType=INTEGER},
+      Voice_voice = #{record.voiceVoice,jdbcType=VARCHAR},
+      Type_id = #{record.typeId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfsk.domain.Voice" >
+    update Voice
+    <set >
+      <if test="voiceVoice != null" >
+        Voice_voice = #{voiceVoice,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        Type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Voice_id = #{voiceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfsk.domain.Voice" >
+    update Voice
+    set Voice_voice = #{voiceVoice,jdbcType=VARCHAR},
+      Type_id = #{typeId,jdbcType=INTEGER}
+    where Voice_id = #{voiceId,jdbcType=INTEGER}
+  </update>
+</mapper>
