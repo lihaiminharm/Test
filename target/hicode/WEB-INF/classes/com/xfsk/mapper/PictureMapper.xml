@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfsk.mapper.PictureMapper" >
+  <resultMap id="BaseResultMap" type="com.xfsk.domain.Picture" >
+    <id column="Pic_id" property="picId" jdbcType="INTEGER" />
+    <result column="Pic_image" property="picImage" jdbcType="VARCHAR" />
+    <result column="Type_id" property="typeId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Pic_id, Pic_image, Type_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xfsk.domain.PictureExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Picture
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Picture
+    where Pic_id = #{picId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Picture
+    where Pic_id = #{picId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xfsk.domain.PictureExample" >
+    delete from Picture
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xfsk.domain.Picture" >
+    insert into Picture (Pic_id, Pic_image, Type_id
+      )
+    values (#{picId,jdbcType=INTEGER}, #{picImage,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfsk.domain.Picture" >
+    insert into Picture
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="picId != null" >
+        Pic_id,
+      </if>
+      <if test="picImage != null" >
+        Pic_image,
+      </if>
+      <if test="typeId != null" >
+        Type_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="picId != null" >
+        #{picId,jdbcType=INTEGER},
+      </if>
+      <if test="picImage != null" >
+        #{picImage,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xfsk.domain.PictureExample" resultType="java.lang.Integer" >
+    select count(*) from Picture
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Picture
+    <set >
+      <if test="record.picId != null" >
+        Pic_id = #{record.picId,jdbcType=INTEGER},
+      </if>
+      <if test="record.picImage != null" >
+        Pic_image = #{record.picImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null" >
+        Type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Picture
+    set Pic_id = #{record.picId,jdbcType=INTEGER},
+      Pic_image = #{record.picImage,jdbcType=VARCHAR},
+      Type_id = #{record.typeId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfsk.domain.Picture" >
+    update Picture
+    <set >
+      <if test="picImage != null" >
+        Pic_image = #{picImage,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        Type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Pic_id = #{picId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfsk.domain.Picture" >
+    update Picture
+    set Pic_image = #{picImage,jdbcType=VARCHAR},
+      Type_id = #{typeId,jdbcType=INTEGER}
+    where Pic_id = #{picId,jdbcType=INTEGER}
+  </update>
+</mapper>

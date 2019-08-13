@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfsk.mapper.BrowerMapper" >
+  <resultMap id="BaseResultMap" type="com.xfsk.domain.Brower" >
+    <id column="Bro_id" property="broId" jdbcType="INTEGER" />
+    <result column="Sale_guid" property="saleGuid" jdbcType="VARCHAR" />
+    <result column="Bro_datetime" property="broDatetime" jdbcType="TIMESTAMP" />
+    <result column="Bro_code" property="broCode" jdbcType="VARCHAR" />
+    <result column="Bro_Pro_username" property="broProUsername" jdbcType="VARCHAR" />
+    <result column="Bro_Pro_sex" property="broProSex" jdbcType="CHAR" />
+    <result column="Bro_Pro_location" property="broProLocation" jdbcType="VARCHAR" />
+    <result column="Bro_Pro_longitude" property="broProLongitude" jdbcType="REAL" />
+    <result column="Bro_Pro_latitude" property="broProLatitude" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Bro_id, Sale_guid, Bro_datetime, Bro_code, Bro_Pro_username, Bro_Pro_sex, Bro_Pro_location, 
+    Bro_Pro_longitude, Bro_Pro_latitude
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xfsk.domain.BrowerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Brower
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Brower
+    where Bro_id = #{broId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Brower
+    where Bro_id = #{broId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xfsk.domain.BrowerExample" >
+    delete from Brower
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xfsk.domain.Brower" >
+    insert into Brower (Bro_id, Sale_guid, Bro_datetime, 
+      Bro_code, Bro_Pro_username, Bro_Pro_sex, 
+      Bro_Pro_location, Bro_Pro_longitude, Bro_Pro_latitude
+      )
+    values (#{broId,jdbcType=INTEGER}, #{saleGuid,jdbcType=VARCHAR}, #{broDatetime,jdbcType=TIMESTAMP}, 
+      #{broCode,jdbcType=VARCHAR}, #{broProUsername,jdbcType=VARCHAR}, #{broProSex,jdbcType=CHAR}, 
+      #{broProLocation,jdbcType=VARCHAR}, #{broProLongitude,jdbcType=REAL}, #{broProLatitude,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfsk.domain.Brower" >
+    insert into Brower
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="broId != null" >
+        Bro_id,
+      </if>
+      <if test="saleGuid != null" >
+        Sale_guid,
+      </if>
+      <if test="broDatetime != null" >
+        Bro_datetime,
+      </if>
+      <if test="broCode != null" >
+        Bro_code,
+      </if>
+      <if test="broProUsername != null" >
+        Bro_Pro_username,
+      </if>
+      <if test="broProSex != null" >
+        Bro_Pro_sex,
+      </if>
+      <if test="broProLocation != null" >
+        Bro_Pro_location,
+      </if>
+      <if test="broProLongitude != null" >
+        Bro_Pro_longitude,
+      </if>
+      <if test="broProLatitude != null" >
+        Bro_Pro_latitude,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="broId != null" >
+        #{broId,jdbcType=INTEGER},
+      </if>
+      <if test="saleGuid != null" >
+        #{saleGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="broDatetime != null" >
+        #{broDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="broCode != null" >
+        #{broCode,jdbcType=VARCHAR},
+      </if>
+      <if test="broProUsername != null" >
+        #{broProUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="broProSex != null" >
+        #{broProSex,jdbcType=CHAR},
+      </if>
+      <if test="broProLocation != null" >
+        #{broProLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="broProLongitude != null" >
+        #{broProLongitude,jdbcType=REAL},
+      </if>
+      <if test="broProLatitude != null" >
+        #{broProLatitude,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xfsk.domain.BrowerExample" resultType="java.lang.Integer" >
+    select count(*) from Brower
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Brower
+    <set >
+      <if test="record.broId != null" >
+        Bro_id = #{record.broId,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleGuid != null" >
+        Sale_guid = #{record.saleGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.broDatetime != null" >
+        Bro_datetime = #{record.broDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.broCode != null" >
+        Bro_code = #{record.broCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.broProUsername != null" >
+        Bro_Pro_username = #{record.broProUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.broProSex != null" >
+        Bro_Pro_sex = #{record.broProSex,jdbcType=CHAR},
+      </if>
+      <if test="record.broProLocation != null" >
+        Bro_Pro_location = #{record.broProLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.broProLongitude != null" >
+        Bro_Pro_longitude = #{record.broProLongitude,jdbcType=REAL},
+      </if>
+      <if test="record.broProLatitude != null" >
+        Bro_Pro_latitude = #{record.broProLatitude,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Brower
+    set Bro_id = #{record.broId,jdbcType=INTEGER},
+      Sale_guid = #{record.saleGuid,jdbcType=VARCHAR},
+      Bro_datetime = #{record.broDatetime,jdbcType=TIMESTAMP},
+      Bro_code = #{record.broCode,jdbcType=VARCHAR},
+      Bro_Pro_username = #{record.broProUsername,jdbcType=VARCHAR},
+      Bro_Pro_sex = #{record.broProSex,jdbcType=CHAR},
+      Bro_Pro_location = #{record.broProLocation,jdbcType=VARCHAR},
+      Bro_Pro_longitude = #{record.broProLongitude,jdbcType=REAL},
+      Bro_Pro_latitude = #{record.broProLatitude,jdbcType=REAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfsk.domain.Brower" >
+    update Brower
+    <set >
+      <if test="saleGuid != null" >
+        Sale_guid = #{saleGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="broDatetime != null" >
+        Bro_datetime = #{broDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="broCode != null" >
+        Bro_code = #{broCode,jdbcType=VARCHAR},
+      </if>
+      <if test="broProUsername != null" >
+        Bro_Pro_username = #{broProUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="broProSex != null" >
+        Bro_Pro_sex = #{broProSex,jdbcType=CHAR},
+      </if>
+      <if test="broProLocation != null" >
+        Bro_Pro_location = #{broProLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="broProLongitude != null" >
+        Bro_Pro_longitude = #{broProLongitude,jdbcType=REAL},
+      </if>
+      <if test="broProLatitude != null" >
+        Bro_Pro_latitude = #{broProLatitude,jdbcType=REAL},
+      </if>
+    </set>
+    where Bro_id = #{broId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfsk.domain.Brower" >
+    update Brower
+    set Sale_guid = #{saleGuid,jdbcType=VARCHAR},
+      Bro_datetime = #{broDatetime,jdbcType=TIMESTAMP},
+      Bro_code = #{broCode,jdbcType=VARCHAR},
+      Bro_Pro_username = #{broProUsername,jdbcType=VARCHAR},
+      Bro_Pro_sex = #{broProSex,jdbcType=CHAR},
+      Bro_Pro_location = #{broProLocation,jdbcType=VARCHAR},
+      Bro_Pro_longitude = #{broProLongitude,jdbcType=REAL},
+      Bro_Pro_latitude = #{broProLatitude,jdbcType=REAL}
+    where Bro_id = #{broId,jdbcType=INTEGER}
+  </update>
+</mapper>

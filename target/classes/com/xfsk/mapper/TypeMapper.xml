@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfsk.mapper.TypeMapper" >
+  <resultMap id="BaseResultMap" type="com.xfsk.domain.Type" >
+    <id column="Type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="Type_genre" property="typeGenre" jdbcType="VARCHAR" />
+    <result column="Type_item_code" property="typeItemCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Type_id, Type_genre, Type_item_code
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xfsk.domain.TypeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Type
+    where Type_id = #{typeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Type
+    where Type_id = #{typeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xfsk.domain.TypeExample" >
+    delete from Type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xfsk.domain.Type" >
+    insert into Type (Type_id, Type_genre, Type_item_code
+      )
+    values (#{typeId,jdbcType=INTEGER}, #{typeGenre,jdbcType=VARCHAR}, #{typeItemCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfsk.domain.Type" >
+    insert into Type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        Type_id,
+      </if>
+      <if test="typeGenre != null" >
+        Type_genre,
+      </if>
+      <if test="typeItemCode != null" >
+        Type_item_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="typeGenre != null" >
+        #{typeGenre,jdbcType=VARCHAR},
+      </if>
+      <if test="typeItemCode != null" >
+        #{typeItemCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xfsk.domain.TypeExample" resultType="java.lang.Integer" >
+    select count(*) from Type
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Type
+    <set >
+      <if test="record.typeId != null" >
+        Type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeGenre != null" >
+        Type_genre = #{record.typeGenre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeItemCode != null" >
+        Type_item_code = #{record.typeItemCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Type
+    set Type_id = #{record.typeId,jdbcType=INTEGER},
+      Type_genre = #{record.typeGenre,jdbcType=VARCHAR},
+      Type_item_code = #{record.typeItemCode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfsk.domain.Type" >
+    update Type
+    <set >
+      <if test="typeGenre != null" >
+        Type_genre = #{typeGenre,jdbcType=VARCHAR},
+      </if>
+      <if test="typeItemCode != null" >
+        Type_item_code = #{typeItemCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Type_id = #{typeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfsk.domain.Type" >
+    update Type
+    set Type_genre = #{typeGenre,jdbcType=VARCHAR},
+      Type_item_code = #{typeItemCode,jdbcType=VARCHAR}
+    where Type_id = #{typeId,jdbcType=INTEGER}
+  </update>
+</mapper>

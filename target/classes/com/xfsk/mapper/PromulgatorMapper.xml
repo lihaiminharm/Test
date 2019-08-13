@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfsk.mapper.PromulgatorMapper" >
+  <resultMap id="BaseResultMap" type="com.xfsk.domain.Promulgator" >
+    <id column="Pro_id" property="proId" jdbcType="VARCHAR" />
+    <result column="Pro_datetime" property="proDatetime" jdbcType="TIMESTAMP" />
+    <result column="Pro_username" property="proUsername" jdbcType="VARCHAR" />
+    <result column="Pro_sex" property="proSex" jdbcType="CHAR" />
+    <result column="Pro_location" property="proLocation" jdbcType="VARCHAR" />
+    <result column="Pro_longitude" property="proLongitude" jdbcType="REAL" />
+    <result column="Pro_latitude" property="proLatitude" jdbcType="REAL" />
+    <result column="Pro_like_count" property="proLikeCount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Pro_id, Pro_datetime, Pro_username, Pro_sex, Pro_location, Pro_longitude, Pro_latitude, 
+    Pro_like_count
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xfsk.domain.PromulgatorExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Promulgator
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Promulgator
+    where Pro_id = #{proId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Promulgator
+    where Pro_id = #{proId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xfsk.domain.PromulgatorExample" >
+    delete from Promulgator
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xfsk.domain.Promulgator" >
+    insert into Promulgator (Pro_id, Pro_datetime, Pro_username, 
+      Pro_sex, Pro_location, Pro_longitude, 
+      Pro_latitude, Pro_like_count)
+    values (#{proId,jdbcType=VARCHAR}, #{proDatetime,jdbcType=TIMESTAMP}, #{proUsername,jdbcType=VARCHAR}, 
+      #{proSex,jdbcType=CHAR}, #{proLocation,jdbcType=VARCHAR}, #{proLongitude,jdbcType=REAL}, 
+      #{proLatitude,jdbcType=REAL}, #{proLikeCount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfsk.domain.Promulgator" >
+    insert into Promulgator
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="proId != null" >
+        Pro_id,
+      </if>
+      <if test="proDatetime != null" >
+        Pro_datetime,
+      </if>
+      <if test="proUsername != null" >
+        Pro_username,
+      </if>
+      <if test="proSex != null" >
+        Pro_sex,
+      </if>
+      <if test="proLocation != null" >
+        Pro_location,
+      </if>
+      <if test="proLongitude != null" >
+        Pro_longitude,
+      </if>
+      <if test="proLatitude != null" >
+        Pro_latitude,
+      </if>
+      <if test="proLikeCount != null" >
+        Pro_like_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="proId != null" >
+        #{proId,jdbcType=VARCHAR},
+      </if>
+      <if test="proDatetime != null" >
+        #{proDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proUsername != null" >
+        #{proUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="proSex != null" >
+        #{proSex,jdbcType=CHAR},
+      </if>
+      <if test="proLocation != null" >
+        #{proLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="proLongitude != null" >
+        #{proLongitude,jdbcType=REAL},
+      </if>
+      <if test="proLatitude != null" >
+        #{proLatitude,jdbcType=REAL},
+      </if>
+      <if test="proLikeCount != null" >
+        #{proLikeCount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xfsk.domain.PromulgatorExample" resultType="java.lang.Integer" >
+    select count(*) from Promulgator
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Promulgator
+    <set >
+      <if test="record.proId != null" >
+        Pro_id = #{record.proId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proDatetime != null" >
+        Pro_datetime = #{record.proDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.proUsername != null" >
+        Pro_username = #{record.proUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proSex != null" >
+        Pro_sex = #{record.proSex,jdbcType=CHAR},
+      </if>
+      <if test="record.proLocation != null" >
+        Pro_location = #{record.proLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proLongitude != null" >
+        Pro_longitude = #{record.proLongitude,jdbcType=REAL},
+      </if>
+      <if test="record.proLatitude != null" >
+        Pro_latitude = #{record.proLatitude,jdbcType=REAL},
+      </if>
+      <if test="record.proLikeCount != null" >
+        Pro_like_count = #{record.proLikeCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Promulgator
+    set Pro_id = #{record.proId,jdbcType=VARCHAR},
+      Pro_datetime = #{record.proDatetime,jdbcType=TIMESTAMP},
+      Pro_username = #{record.proUsername,jdbcType=VARCHAR},
+      Pro_sex = #{record.proSex,jdbcType=CHAR},
+      Pro_location = #{record.proLocation,jdbcType=VARCHAR},
+      Pro_longitude = #{record.proLongitude,jdbcType=REAL},
+      Pro_latitude = #{record.proLatitude,jdbcType=REAL},
+      Pro_like_count = #{record.proLikeCount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfsk.domain.Promulgator" >
+    update Promulgator
+    <set >
+      <if test="proDatetime != null" >
+        Pro_datetime = #{proDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proUsername != null" >
+        Pro_username = #{proUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="proSex != null" >
+        Pro_sex = #{proSex,jdbcType=CHAR},
+      </if>
+      <if test="proLocation != null" >
+        Pro_location = #{proLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="proLongitude != null" >
+        Pro_longitude = #{proLongitude,jdbcType=REAL},
+      </if>
+      <if test="proLatitude != null" >
+        Pro_latitude = #{proLatitude,jdbcType=REAL},
+      </if>
+      <if test="proLikeCount != null" >
+        Pro_like_count = #{proLikeCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Pro_id = #{proId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfsk.domain.Promulgator" >
+    update Promulgator
+    set Pro_datetime = #{proDatetime,jdbcType=TIMESTAMP},
+      Pro_username = #{proUsername,jdbcType=VARCHAR},
+      Pro_sex = #{proSex,jdbcType=CHAR},
+      Pro_location = #{proLocation,jdbcType=VARCHAR},
+      Pro_longitude = #{proLongitude,jdbcType=REAL},
+      Pro_latitude = #{proLatitude,jdbcType=REAL},
+      Pro_like_count = #{proLikeCount,jdbcType=INTEGER}
+    where Pro_id = #{proId,jdbcType=VARCHAR}
+  </update>
+  <select id="guidLikecount" resultMap="BaseResultMap" parameterType="java.lang.String"  resultType="map">
+    select Pro_like_count,Pro_id FROM Promulgator left JOIN Message on Message.Msg_id=Promulgator.Pro_id WHERE Sale_guid=#{saleGuid}
+  </select>
+  <update id="upLikecount">
+      UPDATE Promulgator set Pro_like_count=#{likeCount} WHERE Pro_id=#{proId}
+  </update>
+  <select id="selectPlikeCount"   parameterType="java.lang.String" resultType="java.lang.Integer" >
+    SELECT  Pro_like_count   FROM Promulgator left JOIN Message on Message.Msg_id=Promulgator.Pro_id WHERE Sale_guid=#{saleGuid}
+  </select>
+</mapper>

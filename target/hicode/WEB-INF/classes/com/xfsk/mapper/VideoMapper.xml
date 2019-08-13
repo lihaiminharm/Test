@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xfsk.mapper.VideoMapper" >
+  <resultMap id="BaseResultMap" type="com.xfsk.domain.Video" >
+    <id column="Vid_id" property="vidId" jdbcType="INTEGER" />
+    <result column="Vid_video" property="vidVideo" jdbcType="VARCHAR" />
+    <result column="Type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="Vid_like_count" property="vidLikeCount" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="FullResultMap" type="com.xfsk.domain.Video" >
+    <id column="Vid_id" property="vidId" jdbcType="INTEGER" />
+    <result column="Vid_video" property="vidVideo" jdbcType="VARCHAR" />
+    <result column="Type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="Vid_like_count" property="vidLikeCount" jdbcType="BIGINT" />
+    <association property="message" javaType="com.xfsk.domain.Message">
+      <id column="Sale_guid" property="saleGuid" jdbcType="VARCHAR" />
+      <result column="Msg_id" property="msgId" jdbcType="VARCHAR" />
+      <result column="Msg_password" property="msgPassword" jdbcType="VARCHAR" />
+      <result column="Msg_title" property="msgTitle" jdbcType="VARCHAR" />
+      <result column="Msg_times" property="msgTimes" jdbcType="INTEGER" />
+      <result column="Msg_datetime" property="msgDatetime" jdbcType="TIMESTAMP" />
+      <result column="Bro_code" property="broCode" jdbcType="VARCHAR" />
+      <result column="Pic_id" property="picId" jdbcType="INTEGER" />
+      <result column="Video_id" property="videoId" jdbcType="INTEGER" />
+      <result column="Voice_id" property="voiceId" jdbcType="INTEGER" />
+      <result column="Type_id" property="typeId" jdbcType="INTEGER" />
+      <result column="Msg_longitude" property="msgLongitude" jdbcType="REAL" />
+      <result column="Msg_latitude" property="msgLatitude" jdbcType="REAL" />
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Vid_id, Vid_video, Type_id, Vid_like_count
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xfsk.domain.VideoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from Video
+    where Vid_id = #{vidId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from Video
+    where Vid_id = #{vidId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xfsk.domain.VideoExample" >
+    delete from Video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xfsk.domain.Video" >
+    insert into Video (Vid_id, Vid_video, Type_id, 
+      Vid_like_count)
+    values (#{vidId,jdbcType=INTEGER}, #{vidVideo,jdbcType=VARCHAR}, #{typeId,jdbcType=INTEGER}, 
+      #{vidLikeCount,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xfsk.domain.Video" >
+    insert into Video
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vidId != null" >
+        Vid_id,
+      </if>
+      <if test="vidVideo != null" >
+        Vid_video,
+      </if>
+      <if test="typeId != null" >
+        Type_id,
+      </if>
+      <if test="vidLikeCount != null" >
+        Vid_like_count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vidId != null" >
+        #{vidId,jdbcType=INTEGER},
+      </if>
+      <if test="vidVideo != null" >
+        #{vidVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="vidLikeCount != null" >
+        #{vidLikeCount,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xfsk.domain.VideoExample" resultType="java.lang.Integer" >
+    select count(*) from Video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Video
+    <set >
+      <if test="record.vidId != null" >
+        Vid_id = #{record.vidId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vidVideo != null" >
+        Vid_video = #{record.vidVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null" >
+        Type_id = #{record.typeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.vidLikeCount != null" >
+        Vid_like_count = #{record.vidLikeCount,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Video
+    set Vid_id = #{record.vidId,jdbcType=INTEGER},
+      Vid_video = #{record.vidVideo,jdbcType=VARCHAR},
+      Type_id = #{record.typeId,jdbcType=INTEGER},
+      Vid_like_count = #{record.vidLikeCount,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xfsk.domain.Video" >
+    update Video
+    <set >
+      <if test="vidVideo != null" >
+        Vid_video = #{vidVideo,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        Type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="vidLikeCount != null" >
+        Vid_like_count = #{vidLikeCount,jdbcType=BIGINT},
+      </if>
+    </set>
+    where Vid_id = #{vidId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xfsk.domain.Video" >
+    update Video
+    set Vid_video = #{vidVideo,jdbcType=VARCHAR},
+      Type_id = #{typeId,jdbcType=INTEGER},
+      Vid_like_count = #{vidLikeCount,jdbcType=BIGINT}
+    where Vid_id = #{vidId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectGuid" resultMap="FullResultMap"  resultType="map">
+    select Video.Vid_video from Video left join  Message  on  Video.Vid_id = Message.Video_id  where Message.Sale_guid = #{saleGuid}
+  </select>
+
+
+  <select id="selectByCount" resultMap="BaseResultMap"  parameterType="com.xfsk.domain.Video">
+    SELECT  Vid_like_count FROM  Video where Vid_id = #{Vid_id}
+  </select>
+  <select id="selectVlikeCount"   parameterType="java.lang.String" resultType="java.lang.Integer" >
+    SELECT  Vid_like_count FROM  Video where Vid_video = #{vidVideo}
+  </select>
+  <select id="selectLike" resultMap="FullResultMap" resultType="map">
+    SELECT  Vid_like_count FROM Video left join Message on Video.Vid_id =Message.Video_id where Message.Sale_guid = #{saleGuid}
+  </select>
+  <delete id="delectAll" parameterType="java.lang.String">
+    DELETE Video,UserLike FROM Video LEFT JOIN UserLike on Video.Vid_id=UserLike.Vid_id WHERE Vid_video= #{vidVideo}
+  </delete>
+  <delete id="delectWhole" parameterType="java.lang.Integer">
+    DELETE Video,UserLike FROM Video LEFT JOIN UserLike on Video.Vid_id=UserLike.Vid_id WHERE Video.Vid_id= #{vidId}
+  </delete>
+  <select id="selectIlikeCount"   parameterType="java.lang.Integer" resultType="java.lang.Integer" >
+    SELECT  Vid_like_count FROM  Video where Video.Vid_id=#{vidId}
+  </select>
+  <select id="selectIvideo"   parameterType="java.lang.Integer" resultType="java.lang.String" >
+    SELECT  Vid_video FROM  Video where Video.Vid_id=#{vidId}
+  </select>
+</mapper>
