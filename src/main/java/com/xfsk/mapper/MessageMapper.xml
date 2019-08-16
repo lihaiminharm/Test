@@ -6,6 +6,7 @@
     <result column="Msg_id" property="msgId" jdbcType="VARCHAR" />
     <result column="Msg_password" property="msgPassword" jdbcType="VARCHAR" />
     <result column="Msg_title" property="msgTitle" jdbcType="VARCHAR" />
+    <result column="Msg_leavemsg" property="msgLeavemsg" jdbcType="VARCHAR" />
     <result column="Msg_times" property="msgTimes" jdbcType="BIGINT" />
     <result column="Msg_datetime" property="msgDatetime" jdbcType="TIMESTAMP" />
     <result column="Bro_code" property="broCode" jdbcType="VARCHAR" />
@@ -13,9 +14,6 @@
     <result column="Video_id" property="videoId" jdbcType="INTEGER" />
     <result column="Voice_id" property="voiceId" jdbcType="INTEGER" />
     <result column="Type_id" property="typeId" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.xfsk.domain.Message" extends="BaseResultMap" >
-    <result column="Msg_leavemsg" property="msgLeavemsg" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,28 +74,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    Sale_guid, Msg_id, Msg_password, Msg_title, Msg_times, Msg_datetime, Bro_code, Pic_id, 
-    Video_id, Voice_id, Type_id
+    Sale_guid, Msg_id, Msg_password, Msg_title, Msg_leavemsg, Msg_times, Msg_datetime, 
+    Bro_code, Pic_id, Video_id, Voice_id, Type_id
   </sql>
-  <sql id="Blob_Column_List" >
-    Msg_leavemsg
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.xfsk.domain.MessageExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from Message
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xfsk.domain.MessageExample" >
     select
     <if test="distinct" >
@@ -112,11 +91,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from Message
     where Sale_guid = #{saleGuid,jdbcType=VARCHAR}
   </select>
@@ -132,14 +109,14 @@
   </delete>
   <insert id="insert" parameterType="com.xfsk.domain.Message" >
     insert into Message (Sale_guid, Msg_id, Msg_password, 
-      Msg_title, Msg_times, Msg_datetime, 
-      Bro_code, Pic_id, Video_id, 
-      Voice_id, Type_id, Msg_leavemsg
+      Msg_title, Msg_leavemsg, Msg_times, 
+      Msg_datetime, Bro_code, Pic_id, 
+      Video_id, Voice_id, Type_id
       )
     values (#{saleGuid,jdbcType=VARCHAR}, #{msgId,jdbcType=VARCHAR}, #{msgPassword,jdbcType=VARCHAR}, 
-      #{msgTitle,jdbcType=VARCHAR}, #{msgTimes,jdbcType=BIGINT}, #{msgDatetime,jdbcType=TIMESTAMP}, 
-      #{broCode,jdbcType=VARCHAR}, #{picId,jdbcType=INTEGER}, #{videoId,jdbcType=INTEGER}, 
-      #{voiceId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{msgLeavemsg,jdbcType=LONGVARCHAR}
+      #{msgTitle,jdbcType=VARCHAR}, #{msgLeavemsg,jdbcType=VARCHAR}, #{msgTimes,jdbcType=BIGINT}, 
+      #{msgDatetime,jdbcType=TIMESTAMP}, #{broCode,jdbcType=VARCHAR}, #{picId,jdbcType=INTEGER}, 
+      #{videoId,jdbcType=INTEGER}, #{voiceId,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.xfsk.domain.Message" >
@@ -156,6 +133,9 @@
       </if>
       <if test="msgTitle != null" >
         Msg_title,
+      </if>
+      <if test="msgLeavemsg != null" >
+        Msg_leavemsg,
       </if>
       <if test="msgTimes != null" >
         Msg_times,
@@ -178,9 +158,6 @@
       <if test="typeId != null" >
         Type_id,
       </if>
-      <if test="msgLeavemsg != null" >
-        Msg_leavemsg,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="saleGuid != null" >
@@ -194,6 +171,9 @@
       </if>
       <if test="msgTitle != null" >
         #{msgTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="msgLeavemsg != null" >
+        #{msgLeavemsg,jdbcType=VARCHAR},
       </if>
       <if test="msgTimes != null" >
         #{msgTimes,jdbcType=BIGINT},
@@ -215,9 +195,6 @@
       </if>
       <if test="typeId != null" >
         #{typeId,jdbcType=INTEGER},
-      </if>
-      <if test="msgLeavemsg != null" >
-        #{msgLeavemsg,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -242,6 +219,9 @@
       <if test="record.msgTitle != null" >
         Msg_title = #{record.msgTitle,jdbcType=VARCHAR},
       </if>
+      <if test="record.msgLeavemsg != null" >
+        Msg_leavemsg = #{record.msgLeavemsg,jdbcType=VARCHAR},
+      </if>
       <if test="record.msgTimes != null" >
         Msg_times = #{record.msgTimes,jdbcType=BIGINT},
       </if>
@@ -263,28 +243,7 @@
       <if test="record.typeId != null" >
         Type_id = #{record.typeId,jdbcType=INTEGER},
       </if>
-      <if test="record.msgLeavemsg != null" >
-        Msg_leavemsg = #{record.msgLeavemsg,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update Message
-    set Sale_guid = #{record.saleGuid,jdbcType=VARCHAR},
-      Msg_id = #{record.msgId,jdbcType=VARCHAR},
-      Msg_password = #{record.msgPassword,jdbcType=VARCHAR},
-      Msg_title = #{record.msgTitle,jdbcType=VARCHAR},
-      Msg_times = #{record.msgTimes,jdbcType=BIGINT},
-      Msg_datetime = #{record.msgDatetime,jdbcType=TIMESTAMP},
-      Bro_code = #{record.broCode,jdbcType=VARCHAR},
-      Pic_id = #{record.picId,jdbcType=INTEGER},
-      Video_id = #{record.videoId,jdbcType=INTEGER},
-      Voice_id = #{record.voiceId,jdbcType=INTEGER},
-      Type_id = #{record.typeId,jdbcType=INTEGER},
-      Msg_leavemsg = #{record.msgLeavemsg,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -295,6 +254,7 @@
       Msg_id = #{record.msgId,jdbcType=VARCHAR},
       Msg_password = #{record.msgPassword,jdbcType=VARCHAR},
       Msg_title = #{record.msgTitle,jdbcType=VARCHAR},
+      Msg_leavemsg = #{record.msgLeavemsg,jdbcType=VARCHAR},
       Msg_times = #{record.msgTimes,jdbcType=BIGINT},
       Msg_datetime = #{record.msgDatetime,jdbcType=TIMESTAMP},
       Bro_code = #{record.broCode,jdbcType=VARCHAR},
@@ -318,6 +278,9 @@
       <if test="msgTitle != null" >
         Msg_title = #{msgTitle,jdbcType=VARCHAR},
       </if>
+      <if test="msgLeavemsg != null" >
+        Msg_leavemsg = #{msgLeavemsg,jdbcType=VARCHAR},
+      </if>
       <if test="msgTimes != null" >
         Msg_times = #{msgTimes,jdbcType=BIGINT},
       </if>
@@ -339,25 +302,7 @@
       <if test="typeId != null" >
         Type_id = #{typeId,jdbcType=INTEGER},
       </if>
-      <if test="msgLeavemsg != null" >
-        Msg_leavemsg = #{msgLeavemsg,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where Sale_guid = #{saleGuid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xfsk.domain.Message" >
-    update Message
-    set Msg_id = #{msgId,jdbcType=VARCHAR},
-      Msg_password = #{msgPassword,jdbcType=VARCHAR},
-      Msg_title = #{msgTitle,jdbcType=VARCHAR},
-      Msg_times = #{msgTimes,jdbcType=BIGINT},
-      Msg_datetime = #{msgDatetime,jdbcType=TIMESTAMP},
-      Bro_code = #{broCode,jdbcType=VARCHAR},
-      Pic_id = #{picId,jdbcType=INTEGER},
-      Video_id = #{videoId,jdbcType=INTEGER},
-      Voice_id = #{voiceId,jdbcType=INTEGER},
-      Type_id = #{typeId,jdbcType=INTEGER},
-      Msg_leavemsg = #{msgLeavemsg,jdbcType=LONGVARCHAR}
     where Sale_guid = #{saleGuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xfsk.domain.Message" >
@@ -365,6 +310,7 @@
     set Msg_id = #{msgId,jdbcType=VARCHAR},
       Msg_password = #{msgPassword,jdbcType=VARCHAR},
       Msg_title = #{msgTitle,jdbcType=VARCHAR},
+      Msg_leavemsg = #{msgLeavemsg,jdbcType=VARCHAR},
       Msg_times = #{msgTimes,jdbcType=BIGINT},
       Msg_datetime = #{msgDatetime,jdbcType=TIMESTAMP},
       Bro_code = #{broCode,jdbcType=VARCHAR},
@@ -380,11 +326,14 @@
   <select id="selectMVId" resultType="java.lang.Integer" parameterType="java.lang.String">
     SELECT Video_id FROM Message WHERE Sale_guid =#{saleGuid}
   </select>
-  <!--,Msg_times=NULL-->
-  <update id="setMsgidNull">
-    UPDATE Message set Msg_id=NULL   WHERE Message.Sale_guid=#{saleGuid}
+  <update id="updateMsgidNull">
+    UPDATE Message set Msg_id=NULL,Msg_password=NULL,Msg_title=NULL,Msg_leavemsg=NULL,Msg_datetime=NULL  WHERE Message.Sale_guid=#{saleGuid}
   </update>
   <select id="getOpenId" resultType="java.lang.String" parameterType="java.lang.String">
     SELECT Msg_id FROM Message WHERE Sale_guid = #{saleGuid}
+  </select>
+
+  <select id="getVideoInfo" resultMap="BaseResultMap" resultType="com.xfsk.domain.Message">
+    select Msg_title,Msg_password,Msg_leavemsg from Message where Sale_guid = #{Sale_guid}
   </select>
 </mapper>

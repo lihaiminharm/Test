@@ -41,12 +41,12 @@
         <!--<table tableName="Admin" domainObjectName="Admin" ></table>-->
         <!--<table tableName="Promulgator" domainObjectName="Promulgator" ></table>-->
         <!--<table tableName="Brower" domainObjectName="Brower" ></table>-->
-        <!--<table tableName="Message" domainObjectName="Message" ></table>-->
+        <table tableName="Message" domainObjectName="Message" ></table>
         <!--<table tableName="Picture" domainObjectName="Picture" ></table>-->
         <!--<table tableName="Video" domainObjectName="Video" ></table>-->
         <!--<table tableName="Type" domainObjectName="Type" ></table>-->
         <!--<table tableName="UserLike" domainObjectName="UserLike" ></table>-->
-        <table tableName="Comment" domainObjectName="Comment" ></table>
+        <!--<table tableName="Comment" domainObjectName="Comment" ></table>-->
         <!--<table tableName="Config" domainObjectName="Config" ></table>-->
         <!--<table tableName="Voice" domainObjectName="Voice" ></table>-->
         <!--<table tableName="Sale" domainObjectName="Sale" ></table>-->

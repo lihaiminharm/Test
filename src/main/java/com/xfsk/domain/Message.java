@@ -11,6 +11,8 @@ public class Message {
 
     private String msgTitle;
 
+    private String msgLeavemsg;
+
     private Long msgTimes;
 
     private Date msgDatetime;
@@ -24,8 +26,6 @@ public class Message {
     private Integer voiceId;
 
     private Integer typeId;
-
-    private String msgLeavemsg;
 
     public String getSaleGuid() {
         return saleGuid;
@@ -57,6 +57,14 @@ public class Message {
 
     public void setMsgTitle(String msgTitle) {
         this.msgTitle = msgTitle == null ? null : msgTitle.trim();
+    }
+
+    public String getMsgLeavemsg() {
+        return msgLeavemsg;
+    }
+
+    public void setMsgLeavemsg(String msgLeavemsg) {
+        this.msgLeavemsg = msgLeavemsg == null ? null : msgLeavemsg.trim();
     }
 
     public Long getMsgTimes() {
@@ -113,13 +121,5 @@ public class Message {
 
     public void setTypeId(Integer typeId) {
         this.typeId = typeId;
-    }
-
-    public String getMsgLeavemsg() {
-        return msgLeavemsg;
-    }
-
-    public void setMsgLeavemsg(String msgLeavemsg) {
-        this.msgLeavemsg = msgLeavemsg == null ? null : msgLeavemsg.trim();
     }
 }

@@ -232,7 +232,7 @@
   </update>
 
   <select id="getContext" resultMap="BaseResultMap" resultType="map" >
-    SELECT c.comment_context from Comment c left join Message m on c.Vid_id = m.Video_id where Sale_guid=#{Sale_guid} limit 0,10
+    SELECT c.comment_context from Comment c left join Message m on c.Vid_id = m.Video_id where Sale_guid=#{Sale_guid}
   </select>
   <delete id="deVid">
     DELETE Comment FROM Comment WHERE Comment.Vid_id=#{vidId}

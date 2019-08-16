@@ -13,6 +13,5 @@ public interface CommentService {
     int insertSelective(Comment commentSave);
 
     List<Map<String,Object>> getContext(String saleGuid);
-
     int deVid(Integer vidId);
 }

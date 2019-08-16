@@ -7,7 +7,6 @@ import com.xfsk.domain.Message;
 import com.xfsk.domain.Promulgator;
 import com.xfsk.domain.UserLike;
 import com.xfsk.domain.Video;
-import com.xfsk.mapper.CommentMapper;
 import com.xfsk.service.*;
 import com.xfsk.util.BizException;
 import com.xfsk.util.OSSutil;
@@ -25,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.xfsk.util.OpenUtil.sendGet;
+import static com.xfsk.util.StringDate.timeStamp2Date;
 
 
 @Controller
@@ -82,8 +82,7 @@ public class WxGetVideoInfoController
         List<Map<String,Object>> resultVideoUrl= videoService.selectGuid(saleGuid);
         //查询点赞总赞数
         List<Map<String,Object>> resultLikecount= videoService.selectLike(saleGuid);
-        //查询弹幕
-        List<Map<String,Object>> resultComment =  commentService.getContext(saleGuid);
+
         //map用来存放数据为空是发送的数据
         Map<String,Object> map=new HashMap<String ,Object>();
         //判断查询对象中是否存在视频，如果存在视频则获取url地址，如果不存在则返回0
@@ -136,14 +135,6 @@ public class WxGetVideoInfoController
                             ,proCount.getString("proId"));
                     //删除视频表中的数据
                     videoService.delectAll(list.get(0).getVidVideo());
-                }
-                if (resultComment.toString().equals("[null]")){
-                    resultComment.clear();
-                    map.put("count",0);
-                    resultComment.add(map);
-                    Datamap.put("comment",resultComment);
-                }else {
-                    Datamap.put("comment",resultComment);
                 }
                 Datamap.put("count",resultVideoUrl.size());
             }
@@ -247,5 +238,72 @@ public class WxGetVideoInfoController
         }
 
     }
+
+
+    @RequestMapping(value = "/getComment")
+    @ResponseBody
+    public Object GetCommentToWx(String saleGuid){
+        //创建Datamap对象，用于存储数据
+        Map<String,Object> Datamap=new HashMap<String,Object>();
+        //查询弹幕
+        List<Map<String,Object>> resultComment =  commentService.getContext(saleGuid);
+        //map用来存放数据为空是发送的数据
+        Map<String,Object> map=new HashMap<String ,Object>();
+        try {
+            if (resultComment.toString().equals("[null]")){
+                resultComment.clear();
+                map.put("count",0);
+                resultComment.add(map);
+                Datamap.put("comment",resultComment);
+            }else {
+                Datamap.put("comment",resultComment);
+            }
+        }catch (Exception e){
+            logger.error(e.getLocalizedMessage(), e);
+            throw new BizException(e.getLocalizedMessage());
+        }
+        //利用fastJson将数据转换成json数据
+        JSONObject WxRusultjsonObject=JSONObject.parseObject(JSONObject.toJSONString(Datamap));
+     return  WxRusultjsonObject;
+    }
+
+    @RequestMapping("/getVideoInfoToWx")
+    @ResponseBody
+    public Object GetVideoInfoToWx(String saleGuid,String broOpenId){
+            Map<String,Object> saveVideoInfo=new HashMap<String,Object>();
+            Message message = messageService.selectByPrimaryKey(saleGuid);
+            List<Message> videoInfo = messageService.getVideoInfo(saleGuid);
+            long time = message.getMsgDatetime().getTime();
+            String t = String.valueOf(time/1000);
+            String date1 = timeStamp2Date(t, "yyyy-MM-dd");
+
+            String date2 = timeStamp2Date(t, "HH:mm:ss");
+        try{
+            if (!message.getMsgId().equals(broOpenId)){
+                saveVideoInfo.put("code",0);
+                saveVideoInfo.put("data",videoInfo);
+                saveVideoInfo.put("year",date1);
+                saveVideoInfo.put("time",date2);
+
+            }else {
+                saveVideoInfo.put("code",1);
+                saveVideoInfo.put("data",videoInfo);
+                saveVideoInfo.put("year",date1);
+                saveVideoInfo.put("time",date2);
+            }
+
+        }
+        catch (Exception e){
+            logger.error(e.getLocalizedMessage(),e);
+            throw  new  BizException(e.getLocalizedMessage());
+        }
+        JSONObject VideoToWxjsonObject = JSONObject.parseObject(JSONObject.toJSONString(saveVideoInfo));
+
+        return VideoToWxjsonObject;
+//        return 0;
+
+    }
+
+
 
 }

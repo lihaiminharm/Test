@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by wth on 2019/7/24.
  */
@@ -43,19 +45,38 @@ public class MessageServiceImpl implements MessageService{
     }
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int setMsgidNull(String saleGuid)
+    public int updateMsgidNull(String saleGuid)
     {
-        return messageMapper.setMsgidNull(saleGuid);
+        return messageMapper.updateMsgidNull(saleGuid);
     }
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Integer selectMVId(String saleGuid) {
         return messageMapper.selectMVId(saleGuid);
     }
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public String getOpenId(String saleGuid) {
         return messageMapper.getOpenId(saleGuid);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateByPrimaryKeySelective(Message record){
+        if (record == null){
+            throw new InvokeException();
+        }
+        return messageMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<Message> getVideoInfo(String saleGuid) {
+        if(saleGuid == null){
+            throw new InvokeException();
+        }
+        return messageMapper.getVideoInfo(saleGuid);
+    }
+
+
 }

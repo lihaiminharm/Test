@@ -104,22 +104,27 @@ public class WxResultController {
             }else {
                 messageInfo.setMsgTimes(messageInfo.getMsgTimes()+1);
             }
-
-            //将数据存储到浏览表中
-            saveBrowerRecord.setBroDatetime(new Date());
-            saveBrowerRecord.setSaleGuid(saleGuid);
-            //在message表中查询到序列码将序列码存放到浏览表中
-            saveBrowerRecord.setBroCode(messageInfo.getBroCode());
-            saveBrowerRecord.setBroProUsername(username);
-            saveBrowerRecord.setBroProSex(sex);
-            saveBrowerRecord.setBroProLocation(location);
-            saveBrowerRecord.setBroProLongitude(longitude);
-            saveBrowerRecord.setBroProLatitude(latitude);
-            //将数据存放到brower表中
-            int i = browerService.insertSelective(saveBrowerRecord);
-            //更新message表中数据
-            messageService.updateByPrimaryKey(messageInfo);
+            if(messageInfo.getMsgId()==null ||messageInfo.getMsgId().equals("") ) {
+                return -1;
+            }
+            else{
+                //将数据存储到浏览表中
+                saveBrowerRecord.setBroDatetime(new Date());
+                saveBrowerRecord.setSaleGuid(saleGuid);
+                //在message表中查询到序列码将序列码存放到浏览表中
+                saveBrowerRecord.setBroCode(messageInfo.getBroCode());
+                saveBrowerRecord.setBroProUsername(username);
+                saveBrowerRecord.setBroProSex(sex);
+                saveBrowerRecord.setBroProLocation(location);
+                saveBrowerRecord.setBroProLongitude(longitude);
+                saveBrowerRecord.setBroProLatitude(latitude);
+                //将数据存放到brower表中
+                int i = browerService.insertSelective(saveBrowerRecord);
+                //更新message表中数据
+                messageService.updateByPrimaryKey(messageInfo);
                 return i;
+
+            }
         } catch (Exception e) {
             logger.error(e.getLocalizedMessage(), e);
             throw new BizException(e.getLocalizedMessage());
@@ -245,11 +250,12 @@ public class WxResultController {
                 videoUrl.setVidId(message.getVideoId());
                 videoUrl.setVidVideo(url);
                 message.setMsgId(openId);
+                message.setMsgDatetime(new Date());
                 //插入数据
                 videoService.insertSelective(videoUrl);
                 //插入发布信息
                 //更新Message表中的Msgid
-                messageService.updateByPrimaryKey(message);
+                messageService.updateByPrimaryKeySelective(message);
                 resultMessageDto.setMessage("成功");
             }
             return resultMessageDto;
@@ -280,20 +286,22 @@ public class WxResultController {
             throw new BizException(e.getLocalizedMessage());
         }
     }
+
     @RequestMapping("/DeVideo")
     @ResponseBody
     public boolean DeVideo(boolean TFdelect,String saleGuid,String openId) {
         try {
-            //通过saleGuid查询二维码的发布者openId根据Openid是否为发布者
+            //根据Openid是否为发布者
             if (TFdelect == true && messageService.getOpenId(saleGuid).equals(openId)) {
                 Integer vidId=messageService.selectMVId(saleGuid);
                 //根据guid查询p和v表的likecount相减进行设置
                 promulgatorService.upLikecount(promulgatorService.selectPlikeCount(saleGuid) - videoService.selectIlikeCount(messageService.selectMVId(saleGuid))
                         , openId);
                 //message表中的Msg_id清空
-                messageService.setMsgidNull(saleGuid);
+                messageService.updateMsgidNull(saleGuid);
                 //清除阿里云的视频 通过视频的vidId(1307)
                 OSSutil.delectOSSV(videoService.selectIvideo(vidId));
+
                 //根据guid差vid_id 然后根据vid_id删除点赞和视频表的数据
                 videoService.delectWhole(vidId);
                 commentService.deVid(vidId);
@@ -306,21 +314,44 @@ public class WxResultController {
                 return false;
             }
         }
-
     @RequestMapping("/isUser")
     @ResponseBody
-        public boolean isUser(String saleGuid,String openId){
-       //通过saleGuid查询二维码的发布者openId根据Openid是否为发布者
+    public boolean isUser(String saleGuid,String openId){
+        //通过saleGuid查询二维码的发布者openId根据Openid是否为发布者
         if(saleGuid==null || openId==null ||saleGuid.equals("undefined") || openId.equals("undefined")) {
             return false;
         }
         else {
-            if (messageService.getOpenId(saleGuid).equals(openId)) {
+            String SopenId= messageService.getOpenId(saleGuid);
+            if (SopenId==null ||SopenId.equals("")) {
+                return false;
+            } else if(SopenId.equals(openId)){
                 return true;
-            } else {
+            }
+            else {
                 return false;
             }
         }
     }
+
+
+    @RequestMapping("/insertVideoInfo")
+    @ResponseBody
+    public ResultMessageDto  GetUserInfoToWx(String saleGuid,String msgTitle,String msgPassword,String leaveMsg){
+        ResultMessageDto<String>  resultMessageDto = new ResultMessageDto<>();
+        try{
+            Message message = messageService.selectByPrimaryKey(saleGuid);
+            message.setMsgTitle(msgTitle);
+            message.setMsgPassword(msgPassword);
+            message.setMsgLeavemsg(leaveMsg);
+            messageService.updateByPrimaryKeySelective(message);
+            resultMessageDto.setMessage("成功");
+        }catch (Exception e){
+            logger.error(e.getLocalizedMessage(),e);
+            throw new BizException(e.getLocalizedMessage());
+        }
+        return resultMessageDto;
+    }
+
     }
 

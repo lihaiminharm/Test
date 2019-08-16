@@ -385,6 +385,76 @@ public class MessageExample {
             return (Criteria) this;
         }
 
+        public Criteria andMsgLeavemsgIsNull() {
+            addCriterion("Msg_leavemsg is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgIsNotNull() {
+            addCriterion("Msg_leavemsg is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgEqualTo(String value) {
+            addCriterion("Msg_leavemsg =", value, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgNotEqualTo(String value) {
+            addCriterion("Msg_leavemsg <>", value, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgGreaterThan(String value) {
+            addCriterion("Msg_leavemsg >", value, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgGreaterThanOrEqualTo(String value) {
+            addCriterion("Msg_leavemsg >=", value, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgLessThan(String value) {
+            addCriterion("Msg_leavemsg <", value, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgLessThanOrEqualTo(String value) {
+            addCriterion("Msg_leavemsg <=", value, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgLike(String value) {
+            addCriterion("Msg_leavemsg like", value, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgNotLike(String value) {
+            addCriterion("Msg_leavemsg not like", value, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgIn(List<String> values) {
+            addCriterion("Msg_leavemsg in", values, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgNotIn(List<String> values) {
+            addCriterion("Msg_leavemsg not in", values, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgBetween(String value1, String value2) {
+            addCriterion("Msg_leavemsg between", value1, value2, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
+        public Criteria andMsgLeavemsgNotBetween(String value1, String value2) {
+            addCriterion("Msg_leavemsg not between", value1, value2, "msgLeavemsg");
+            return (Criteria) this;
+        }
+
         public Criteria andMsgTimesIsNull() {
             addCriterion("Msg_times is null");
             return (Criteria) this;

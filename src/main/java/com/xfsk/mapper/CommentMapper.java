@@ -32,6 +32,5 @@ public interface CommentMapper {
 
     //查询context内容
     List<Map<String,Object>>  getContext(String saleGuid);
-
     int deVid(Integer vidId);
 }
